@@ -1,32 +1,41 @@
-let rock = 'rock';
-let paper = 'paper';
-let scissors = 'scissors';
+/*
+In this function-based program, we play the classic "Rock Paper Scissors" against the computer.
 
-let computer = "Computer";
-let player = "You";
+STEPS TO PLAY GAME ON BROWSER
+- open 'index.html" file in browser. You can also drag the file into the address bar
+- cancel the dialouge box that first opens up. You will use this in a minute.
+- right click your mouse, and click on "inspect element"
+- navigate to the "console" tab of the developer tools
+- click the refresh button to start the game and load up the promp again
+- The game will end after 5 rounds. Feel free to hit refresh as many times as you want!
+*/
 
-let computerSelection = computerPlay();
-let playerPick = prompt("Enter 'rock', 'paper' or 'scissors'");
-let playerSelection = playerPlay(playerPick);
+const rock = 'rock';
+const paper = 'paper';
+const scissors = 'scissors';
 
-function playerPlay(playerPick) {
-  playerPickValue = playerPick.toLowerCase();
-  if (playerPickValue === 'rock') {
+const computer = "Computer";
+const player = "You";
+
+// All functions needed to play the game
+function playerPlay() {
+  playerPick = prompt("Enter 'rock', 'paper' or 'scissors'");
+  playerPick = playerPick.toLowerCase();
+  if (playerPick === 'rock') {
     return rock;
-  } else if (playerPickValue === 'paper') {
+  } else if (playerPick === 'paper') {
     return paper;
-  } else if (playerPickValue === 'scissors') {
+  } else if (playerPick === 'scissors') {
     return scissors;
   } else {
-    tryAgain = prompt("Enter 'rock', 'paper' or 'scissors'")
-    playerPlay(tryAgain)
+    playerPlay()
   }
 }
 
 function computerPlay() {
   let compValue = Math.floor((Math.random()*3) + 1);
   if (compValue === 1) {
-    return rock;
+    return rock;computerSelection
   } else if (compValue === 2) {
     return paper;
   } else if (compValue === 3) {
@@ -34,9 +43,7 @@ function computerPlay() {
   }
 }
 
-
-
-function playRound(computerSelection, playerSelection) {
+function determineWinner(selections) {
   if (selections.includes(rock) && selections.includes(paper)) {
     if (computerSelection === paper) {
       return computer
@@ -53,51 +60,58 @@ function playRound(computerSelection, playerSelection) {
     } else
     return player
   } else {
-    // console.log(computerSelection, 'and', playerSelection)
     console.log('Whoops, you both picked ' + computerSelection + ' and ' + playerSelection + '. Try again')
-    tryAgain = prompt("Enter 'rock', 'paper' or 'scissors'")
-    playerPlay(tryAgain)
-    // playerPlay(tryAgain)
+    console.log('---------------------------\n')
+    return 'None'
   }
 }
 
-
-console.log('computer:', computerSelection)
-console.log('player:', playerSelection)
-
-
-let selections = [computerSelection, playerSelection]
-
-function score() {
+function playRound() {
+  computerSelection = computerPlay();
+  playerSelection = playerPlay();
+  console.log('computer picked: ' + computerSelection + '\n')
+  console.log('you picked: ' + playerSelection + '\n')
   
+  selections = [computerSelection, playerSelection];
+  winnerRound = determineWinner(selections);
+
+  if (winnerRound === 'None') {
+    return playRound()
+  } else {
+    return winnerRound
+  }
 }
 
-
-
-
-
-
-
-
-
-
-console.log(playRound(computerSelection, playerSelection));
-
-  /*
-  Trackers
-  5 roundscompValue
-  winner and loser per round
-
-
-  at the end of the 5 rounds, declare winner of the whole game
-
-
-
-
-  } else if (computerSelection === 2) {
-  return "You Lose! Paper beats Rock"
-} else {
-  return "You Win! Rock beats Scissors"
-}  
-  */
+// MAIN PROGRAM - uses other functions as inputs
+// Keeps track of the 5 games and displays values for each round
+function playGame() {
+  let gameCounter = 0;
+  let computerCounter = 0;
+  let playerCounter = 0;
+  
+  while (gameCounter < 5) {
     
+    winner = playRound()
+    
+    if (winner === computer) {
+      computerCounter ++;
+    } else {
+      playerCounter ++;
+    }
+    gameCounter ++;
+        
+    console.log('Round winner:', winner);
+    console.log('Computer\'s Score: ' + computerCounter + ' | ' + 'Your score: ' + playerCounter + ' | ' + 'Games Played: ' + gameCounter);
+    console.log('---------------------------')
+  }
+  
+  // After 5 games, determine the overall winner
+  if (computerCounter > playerCounter) {
+    console.log('The winner of the game is the Computer!');
+  } else {
+    console.log('The winner of the game is You!');
+  }
+}
+  
+// Execute entire game:
+playGame();
