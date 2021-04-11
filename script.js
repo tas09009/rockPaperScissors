@@ -17,7 +17,8 @@ const scissors = 'scissors';
 const computer = "Computer";
 const player = "You";
 
-// All functions needed to play the game
+// FUNCTIONS
+// ===========================================================
 function playerPlay() {
   playerPick = prompt("Enter 'rock', 'paper' or 'scissors'");
   playerPick = playerPick.toLowerCase();
@@ -84,6 +85,7 @@ function playRound() {
 
 // MAIN PROGRAM - uses other functions as inputs
 // Keeps track of the 5 games and displays values for each round
+// ===============================================================
 function playGame() {
   let gameCounter = 0;
   let computerCounter = 0;
